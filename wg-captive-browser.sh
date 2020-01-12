@@ -25,6 +25,12 @@ main() {
     die "[!] Wireguard interface $wgif not found"
   fi
 
+  if [ -z "$DISPLAY" ]; then
+    echo "DISPLAY environment variable not set." >&2
+    echo "try running: sudo $0" >&2
+    exit 1
+  fi
+
   trap "cleanup; exit" INT TERM EXIT
   add_netns
   add_veth
