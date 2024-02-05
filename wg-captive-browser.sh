@@ -1,10 +1,10 @@
 #!/bin/bash
+# Get info about the user calling the script and the current active connection
+# Set up a new network namespace and start captive-browser to handle any captive portals
+set -ex
 
-set -e
-set -x
-
-physicalif=wlp61s0
-browser_user=psanford
+physicalif=$(nmcli con show --active | grep -E 'wifi|ethernet' | awk '{print $4}')
+browser_user=$(logname)
 wgif=wg0
 hostip=10.129.0.129
 nsip=10.129.0.130
@@ -47,11 +47,6 @@ cleanup() {
   rm_iptable_rules
   rm_veth
   rm_netns
-}
-
-end() {
-  echo 2>/dev/null
-  echo "Cleanup veth"
 }
 
 netns_exists() {
