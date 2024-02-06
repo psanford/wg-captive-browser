@@ -1,6 +1,6 @@
 #!/bin/bash
 # Get info about the user calling the script and the current active connection
-# Set up a new network namespace and start Firefox to handle any captive portals
+# Set up a new network namespace and start captive-browser to handle any captive portals
 set -ex
 
 physicalif=$(nmcli con show --active | grep -E 'wifi|ethernet' | awk '{print $4}')
@@ -8,8 +8,7 @@ browser_user=$(logname)
 wgif=wg0
 hostip=10.129.0.129
 nsip=10.129.0.130
-browser_command_profile="firefox -CreateProfile captive-portal"
-browser_command="firefox -P captive-portal -private-window"
+browser_command='captive-browser'
 
 netns=novpn
 hostif=novpnhost0
@@ -36,7 +35,6 @@ main() {
   add_veth
   add_iptable_rules
 
-  sudo -u $browser_user -i $browser_command_profile
   ip netns exec $netns sudo -u $browser_user -i $browser_command
 
   cleanup;
