@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Get info about the user calling the script and the current active connection
 # Set up a new network namespace and start captive-browser to handle any captive portals
 set -ex
